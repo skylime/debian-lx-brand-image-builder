@@ -1,3 +1,10 @@
+# Generated
 *.tar.gz
 *.json
 *.zfs.gz
+# Downloads
+*.deb
+shasum256.txt
+# Vagrant build
+.vagrant
+done
