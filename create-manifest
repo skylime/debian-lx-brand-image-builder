@@ -6,8 +6,8 @@
 set -o errexit
 
 now=$(date -u +%Y-%m-%dT%TZ)
-vm_uuid=$(uuid)
-SUM=/usr/bin/sum
+vm_uuid=$(uuidgen)
+SUM=$(type -p openssl)
 description=
 filename=
 kernel=
@@ -16,6 +16,7 @@ name=
 os=
 version=
 homepage=
+public=
 
 usage()
 {
@@ -41,6 +42,7 @@ OPTIONS:
   -o <the os of VM image> (optional, default: "other")
   -v <version of VM image> (required)
   -h <homepage link> (optional)
+  -p <public true or false> (optional, default: "false")
 
 Example:
 
@@ -50,7 +52,7 @@ USAGE
 	exit 1
 }
 
-while getopts d:f:k:m:n:o:v:h:? OPTION
+while getopts d:f:k:m:n:o:v:p:h:? OPTION
 do
 	case $OPTION in
 	d)
@@ -77,6 +79,9 @@ do
 	h)
 		homepage=${OPTARG}
 		;;
+	p)
+		public=${OPTARG}
+		;;
 	\?)
 		usage
 		;;
@@ -100,12 +105,16 @@ if [[ -z ${homepage} ]]; then
 	homepage=https://docs.joyent.com/images
 fi
 
+if [[ -z ${public} ]]; then
+	public="false"
+fi
+
 if [[ ! -f ${filename} ]]; then
 	echo "FATAL: ${filename} does not exist."
 	usage
 fi
 
-shasum=$($SUM -x sha1 ${filename} | cut -d' ' -f1)
+shasum=$($SUM sha1 ${filename} | cut -d' ' -f2)
 filesize=$(wc -c < ${filename})
 
 cat <<EOF
@@ -138,7 +147,7 @@ cat <<EOF
     "brand": "lx"
   },
   "uuid": "${vm_uuid}",
-  "public": false,
+  "public": ${public},
   "owner": "00000000-0000-0000-0000-000000000000",
   "tags": {
     "role": "os",
