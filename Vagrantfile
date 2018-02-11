@@ -52,6 +52,9 @@ cd /vagrant && \
                          -m ${MIN_PLATFORM} \
                          -n core-${IMAGE_NAME}-${BUILD_DATE} \
                          -v ${BUILD_DATE} \
+                         -o linux \
+                         -d "${OS_DESC}" \
+                         -h https://docs.joyent.com/images/container-native-linux \
                          -p true \
 > core-${IMAGE_NAME}-${BUILD_DATE}.json
 SCRIPT
