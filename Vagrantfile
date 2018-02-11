@@ -52,7 +52,8 @@ cd /vagrant && \
                          -m ${MIN_PLATFORM} \
                          -n core-${IMAGE_NAME}-${BUILD_DATE} \
                          -v ${BUILD_DATE} \
-                         -p true
+                         -p true \
+> core-${IMAGE_NAME}-${BUILD_DATE}.json
 SCRIPT
 
 $imgadm_publish = <<SCRIPT
