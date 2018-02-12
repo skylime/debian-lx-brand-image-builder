@@ -50,7 +50,7 @@ cd /vagrant && \
 /vagrant/create-manifest -f core-${IMAGE_NAME}-${BUILD_DATE}.zfs.gz \
                          -k ${KERNEL} \
                          -m ${MIN_PLATFORM} \
-                         -n core-${IMAGE_NAME}-${BUILD_DATE} \
+                         -n core-${IMAGE_NAME} \
                          -v ${BUILD_DATE} \
                          -o linux \
                          -d "${OS_DESC}" \
